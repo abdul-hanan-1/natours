@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express');
 
 const app = express();
+app.use(express.json());
 const port = '3000';
 
 app.get('/', (req, res) => {
@@ -23,6 +24,11 @@ app.get('/api/v1/tours', (req, res) => {
       tours,
     },
   });
+});
+
+app.post('/api/v1/tours', (req, res) => {
+  console.log(req.body);
+  res.send('Tour added');
 });
 
 app.listen(port, () => {
