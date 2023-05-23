@@ -1,7 +1,11 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
+
+//Middlewares
+app.use(morgan('dev'));
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -15,6 +19,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+// Route Handlers
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -78,9 +83,11 @@ const updateTour = (req, res) => {
   });
 };
 
+// Routes
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app.route('/api/v1/tours/:id').get(getTour).patch(updateTour);
 
+// Application Startup
 app.listen(port, () => {
   console.log('App running on port 3000');
 });
